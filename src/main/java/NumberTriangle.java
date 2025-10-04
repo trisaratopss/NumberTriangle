@@ -119,7 +119,7 @@ public class NumberTriangle {
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
 
-        ArrayList<NumberTriangle> prevRow = new ArrayList<>();
+        ArrayList<NumberTriangle> prevRow = null;
 
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
@@ -127,22 +127,23 @@ public class NumberTriangle {
 
         String line = br.readLine();
         while (line != null) {
+            line = line.trim();
             String[] split = line.split("\\s+");
-            ArrayList<NumberTriangle> row = new ArrayList<>();
+            ArrayList<NumberTriangle> row = new ArrayList<>(split.length);
 
             for(int i = 0; i < split.length; i++){
-                int val = Integer.parseInt(String.valueOf(split[i]));
+                int val = Integer.parseInt(split[i]);
                 row.add(new NumberTriangle(val));
             }
 
-            if (prevRow != null) {
+            if (prevRow == null) {
+                top = row.get(0);
+            } else {
                 for(int i = 0; i < prevRow.size(); i++){
                     NumberTriangle parent = prevRow.get(i);
                     parent.setLeft(row.get(i));
                     parent.setRight(row.get(i + 1));
                 }
-            } else {
-                top = row.get(0);
             }
 
             prevRow = row;
